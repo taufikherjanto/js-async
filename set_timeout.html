@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Timeout</title>
+    <script>
+        function callback() {
+            console.log('Halo dari callback');
+        }
+
+        function tombolKlik() {
+            // async
+            setTimeout(() => {
+                // run callback
+                callback();
+            }, 3000)
+            // setInterval(() => {
+            //     // run callback
+            //     callback();
+            // }, 5)
+            console.log('Sukses tombol klik');
+        }
+    </script>
+</head>
+<body>
+    <button onclick="tombolKlik()">Klik saya</button>
+</body>
+</html>

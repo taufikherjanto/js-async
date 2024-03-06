@@ -11,17 +11,42 @@
 
         function getProducts(keyword) {
             // Code AJAX Here!
-            const ajax = new XMLHttpRequest();
-            const url = getProductsUrl(keyword);
+            
+            // untuk mendapatkan response text
+            // cara berikut tidak bisa dilakukan secara synchronous
+            // const ajax = new XMLHttpRequest();
+            // const url = getProductsUrl(keyword);
 
             // untuk akses ke url dengan ajax
+            // ajax.open("GET", url);
+            // ajax.send();
+            // const resonse = JSON.parse(ajax.responseText);
+            // console.log(ajax.responseText);
+            // console.log(response);
+
+            const ajax = new XMLHttpRequest();
+
+            ajax.onload = function() {
+                if(ajax.status === 200){
+                    const data = JSON.parse(ajax.responseText);
+                    // bersihkan produk
+                    clearProducts();
+
+                    // tampilkan produk
+                    displayProducts(data);
+                } else {
+                    getProductsError();
+                }
+            }
+            
+            const url = getProductsUrl(keyword);
             ajax.open("GET", url);
             ajax.send();
+        }
 
-            // untuk mendapatkan response text
-            const resonse = JSON.parse(ajax.responseText);
-            console.log(ajax.responseText);
-            console.log(response);
+        function getProductsError() {
+            console.log('Error get products');
+            alert('Error get products');
         }
 
         function clearProducts() {

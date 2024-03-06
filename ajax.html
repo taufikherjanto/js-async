@@ -9,7 +9,7 @@
             return `https://www.blibli.com/backend/search/products?searchTerm=${keyword}`;
         }
 
-        function getProducts(keyword) {
+        function getProducts(keyword, callbackSuccess, callbackError) {
             // Code AJAX Here!
             
             // untuk mendapatkan response text
@@ -24,18 +24,19 @@
             // console.log(ajax.responseText);
             // console.log(response);
 
+            // berikut cara mendapatkan data product secara async
+
             const ajax = new XMLHttpRequest();
 
             ajax.onload = function() {
                 if(ajax.status === 200){
                     const data = JSON.parse(ajax.responseText);
-                    // bersihkan produk
-                    clearProducts();
-
-                    // tampilkan produk
-                    displayProducts(data);
+                    
+                    // panggil callback sukses
+                    callbackSuccess(data);
                 } else {
-                    getProductsError();
+                    // panggil callback Error
+                    callbackError();
                 }
             }
             
@@ -86,7 +87,21 @@
         }
 
         function buttonClick() {
-            getProducts(document.getElementById("keyword").value);
+
+            // panggil getProdducts(keyword, callbackSuccess, callbackError)
+            // callbackSuccess dengan anonymous function
+            // callbackError dengan anonymous function
+            getProducts(document.getElementById("keyword").value, function(data) {
+                // ini adalah callback sukses
+                clearProducts();
+                displayProducts(data);
+
+                clearTableProducts();
+                displayTableProducts(data);
+            }, function() {
+                // ini adalah callback error
+                getProductsError();
+            });
         }
     </script>
 </head>
